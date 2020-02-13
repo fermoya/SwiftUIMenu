@@ -24,7 +24,9 @@ import SwiftUI
 ///      })
 /// })
 /// ```
-public struct Menu<Item, Row, Content>: View where Item: Identifiable & Equatable, Row: View, Content: View {
+public struct Menu<Item, ID, Row, Content>: View where Item: Equatable, Row: View, Content: View, ID: Hashable {
+
+    typealias Header = View
 
     /*** Arguments  ***/
 
@@ -48,6 +50,9 @@ public struct Menu<Item, Row, Content>: View where Item: Identifiable & Equatabl
 
     /// Factory method to build the content of the selected section
     var menuItemContent: (Int) -> Content
+
+    /// KeyPath to a Hashable field on `Item`
+    var keyPath: KeyPath<Item, ID>
 
     /*** Buildable ***/
 
@@ -96,9 +101,10 @@ public struct Menu<Item, Row, Content>: View where Item: Identifiable & Equatabl
     /// - Parameter menuItems: Array of elements to populate the menu drawer
     /// - Parameter menuItemRow: Factory method to build the section list
     /// - Parameter menuItemContent: Factory method to build de current section content
-    public init(indexSelected: Binding<Int>, isOpen: Binding<Bool>, menuItems: [Item], @ViewBuilder menuItemRow: @escaping (Item) -> Row, @ViewBuilder menuItemContent: @escaping (Int) -> Content) {
+    public init(indexSelected: Binding<Int>, isOpen: Binding<Bool>, menuItems: [Item], id: KeyPath<Item, ID>, @ViewBuilder menuItemRow: @escaping (Item) -> Row, @ViewBuilder menuItemContent: @escaping (Int) -> Content) {
         self._indexSelected = indexSelected
         self._isOpen = isOpen
+        self.keyPath = id
         self.menuItems = menuItems
         self.menuItemRow = menuItemRow
         self.menuItemContent = menuItemContent
@@ -127,6 +133,12 @@ public struct Menu<Item, Row, Content>: View where Item: Identifiable & Equatabl
                     .onChanged(onDraggingChanged(value:))
                     .onEnded(onDraggingEnded(value:)))
             )
+    }
+}
+
+extension Menu where ID == Item.ID, Item: Identifiable {
+    public init(indexSelected: Binding<Int>, isOpen: Binding<Bool>, menuItems: [Item], @ViewBuilder menuItemRow: @escaping (Item) -> Row, @ViewBuilder menuItemContent: @escaping (Int) -> Content) {
+        self.init(indexSelected: indexSelected, isOpen: isOpen, menuItems: menuItems, id: \Item.id, menuItemRow: menuItemRow, menuItemContent: menuItemContent)
     }
 }
 
@@ -234,7 +246,8 @@ extension Menu {
     /// The drawer menu that slides from the side
     private var sectionList: some View {
         List {
-            ForEach(menuItems) { item in
+            Text("Header")
+            ForEach(menuItems, id: keyPath) { item in
                 self.menuItemRow(item)
                     .onTapGesture (perform: {
                         withAnimation(Animation.easeOut(duration: 0.25)) {
@@ -243,6 +256,7 @@ extension Menu {
                         }
                     })
             }
+            Text("Footer")
         }
         .frame(size: sectionListSize)
         .offset(sectionListOffset)

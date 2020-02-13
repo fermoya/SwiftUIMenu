@@ -6,7 +6,7 @@
 //  Copyright © 2020 Fernando Moya de Rivas. All rights reserved.
 //
 
-import CoreGraphics
+import SwiftUI
 
 extension Menu: Buildable {
 
@@ -38,6 +38,11 @@ extension Menu: Buildable {
     /// Removes the `DragGesture` used to swipe the menu open / close
     public func disableDragging() -> Self {
         mutating(keyPath: \.allowDragging, value: false)
+    }
+
+    /// Removes the `DragGesture` used to swipe the menu open / close
+    public func header<R: View>(header: @escaping () -> R) -> Self {
+        self
     }
 
 }
