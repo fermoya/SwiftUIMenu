@@ -19,8 +19,8 @@ struct ContentView: View {
             Menu(indexSelected: self.$index,
                      isOpen: self.$isMenuOpen,
                      menuItems: menuItems,
-                     id: \.id,
-                     menuItemRow: { Text($0.id) },
+                     id: \.name,
+                     menuItemRow: { Text($0.name) },
                      menuItemContent: { section in
                         ZStack {
                             Rectangle().fill(Color.white)

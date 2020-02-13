@@ -40,9 +40,16 @@ extension Menu: Buildable {
         mutating(keyPath: \.allowDragging, value: false)
     }
 
-    /// Removes the `DragGesture` used to swipe the menu open / close
-    public func header<R: View>(header: @escaping () -> R) -> Self {
-        self
+    /// Adds a header to the menu drawer
+    public func header<Header: View>(@ViewBuilder header: @escaping () -> Header) -> Self {
+        let header = { AnyView(header()) }
+        return mutating(keyPath: \.header, value: header)
+    }
+
+    /// Adds a  footer to the menu drawer
+    public func footer<Footer: View>(@ViewBuilder footer: @escaping () -> Footer) -> Self {
+        let footer = { AnyView(footer()) }
+        return mutating(keyPath: \.footer, value: footer)
     }
 
 }

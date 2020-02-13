@@ -26,8 +26,6 @@ import SwiftUI
 /// ```
 public struct Menu<Item, ID, Row, Content>: View where Item: Equatable, Row: View, Content: View, ID: Hashable {
 
-    typealias Header = View
-
     /*** Arguments  ***/
 
     /// `true` if the menu drawer is visible
@@ -55,6 +53,12 @@ public struct Menu<Item, ID, Row, Content>: View where Item: Equatable, Row: Vie
     var keyPath: KeyPath<Item, ID>
 
     /*** Buildable ***/
+
+    /// Menu section list header
+    var header: (() -> AnyView)?
+
+    /// Menu section list footer
+    var footer: (() -> AnyView)?
 
     /// Indicates the side the menu drawer should slide from
     var alignment: Alignment = .left
@@ -136,13 +140,13 @@ public struct Menu<Item, ID, Row, Content>: View where Item: Equatable, Row: Vie
     }
 }
 
+// MARK: Helpers
+
 extension Menu where ID == Item.ID, Item: Identifiable {
     public init(indexSelected: Binding<Int>, isOpen: Binding<Bool>, menuItems: [Item], @ViewBuilder menuItemRow: @escaping (Item) -> Row, @ViewBuilder menuItemContent: @escaping (Int) -> Content) {
         self.init(indexSelected: indexSelected, isOpen: isOpen, menuItems: menuItems, id: \Item.id, menuItemRow: menuItemRow, menuItemContent: menuItemContent)
     }
 }
-
-// MARK: Helpers
 
 extension Menu {
 
@@ -246,7 +250,9 @@ extension Menu {
     /// The drawer menu that slides from the side
     private var sectionList: some View {
         List {
-            Text("Header")
+            if header != nil {
+                header!()
+            }
             ForEach(menuItems, id: keyPath) { item in
                 self.menuItemRow(item)
                     .onTapGesture (perform: {
@@ -256,7 +262,9 @@ extension Menu {
                         }
                     })
             }
-            Text("Footer")
+            if footer != nil {
+                footer!()
+            }
         }
         .frame(size: sectionListSize)
         .offset(sectionListOffset)

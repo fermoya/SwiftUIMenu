@@ -15,7 +15,6 @@ struct MenuItem: Equatable {
         case image
     }
     
-    var id: String { return name }
     var name: String
     var kind: Kind
 }
