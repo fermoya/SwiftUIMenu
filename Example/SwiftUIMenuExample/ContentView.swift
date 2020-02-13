@@ -12,7 +12,6 @@ struct ContentView: View {
 
     @State var index = 0
     @State var isMenuOpen = false
-    @State var isPresented = false
 
     var body: some View {
         NavigationView {
@@ -37,17 +36,6 @@ struct ContentView: View {
 }
 
 extension ContentView {
-
-    private var closeButton: some View {
-        Button(action: {
-            withAnimation {
-                self.isPresented.toggle()
-            }
-        }) {
-            Image(systemName: "xmark")
-                .padding(8)
-        }
-    }
 
     var menuButton: some View {
         Button(action: {
