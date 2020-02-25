@@ -235,6 +235,7 @@ extension Menu {
         Rectangle()
             .fill(Color.black.opacity(shadeOpacity))
             .allowsHitTesting(false)
+            .edgesIgnoringSafeArea(.all)
     }
 
     /// The content shown as per `indexSelected`
