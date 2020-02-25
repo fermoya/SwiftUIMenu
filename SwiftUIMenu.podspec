@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "SwiftUIMenu"
-  s.version      = "1.3.0"
+  s.version      = "1.0.0"
   s.summary      = "Native component in SwiftUI to implement Menu Navigation Pattern. Easy to use, easy to customize."
 
   s.description  = <<-DESC
@@ -22,7 +22,7 @@ Pod::Spec.new do |s|
   s.platforms = { :ios => "13.0", :osx => "10.15", :watchos => "6.0" }
   s.swift_version = "5.1"
 
-  s.source       = { :git => "https://github.com/fermoya/SwiftUIMenu.git", :tag => "#{s.version}" }
+  s.source       = { :git => "https://github.com/fermoya/SwiftUIMenu.git", :tag => "#{s.version}-beta.1" }
   s.source_files  = "Sources/SwiftUIMenu/**/*.swift"
 
   s.xcconfig = { "SWIFT_VERSION" => "5.1" }
