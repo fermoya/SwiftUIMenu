@@ -64,16 +64,16 @@ public struct Menu<Item, ID, Row, Content>: View where Item: Equatable, Row: Vie
     var alignment: Alignment = .left
 
     /// Customizes the way the menu drawer is revealed
-    var style: Style = .push
+    var style: Style = .overlap
 
     /// `true` if the content should shade when the drawer is open
     var shouldShadeContent = false
 
     /// `true` if `Menu` can be open by dragging
-    var allowDragging = true
+    var allowsDragging = true
 
     /// Section list size proportion relative to the menu size
-    var overlappingRatio: CGFloat = 1
+    var revealRatio: CGFloat = 1
 
     /// Defines the position of the menu drawer
     public enum Alignment {
@@ -129,7 +129,7 @@ public struct Menu<Item, ID, Row, Content>: View where Item: Equatable, Row: Vie
             }
         }.sizeTrackable($size)
 
-        guard allowDragging else { return AnyView(view) }
+        guard allowsDragging else { return AnyView(view) }
 
         return AnyView(view
             .gesture(
@@ -181,7 +181,7 @@ extension Menu {
 
     /// Drawer menu size
     var sectionListSize: CGSize {
-        CGSize(width: overlappingRatio * size.width,
+        CGSize(width: revealRatio * size.width,
                height: size.height)
     }
 
@@ -254,13 +254,23 @@ extension Menu {
                 header!()
             }
             ForEach(menuItems, id: keyPath) { item in
-                self.menuItemRow(item)
-                    .onTapGesture (perform: {
-                        withAnimation(Animation.easeOut(duration: 0.25)) {
-                            self.isOpen = false
-                            self.indexSelected = self.menuItems.firstIndex(of: item)!
-                        }
+                HStack {
+                    if self.alignment == .right {
+                        Spacer()
+                    }
+                    self.menuItemRow(item)
+                    if self.alignment == .left {
+                        Spacer()
+                    }
+                }
+                .contentShape(Rectangle())
+                .onTapGesture (perform: {
+                    withAnimation(Animation.easeOut(duration: 0.25)) {
+                        self.isOpen = false
+                        self.indexSelected = self.menuItems.firstIndex(of: item)!
+                    }
                     })
+
             }
             if footer != nil {
                 footer!()

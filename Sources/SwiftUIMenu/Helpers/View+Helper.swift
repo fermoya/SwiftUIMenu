@@ -1,6 +1,6 @@
 //
 //  View+Helper.swift
-//  SwiftUIPager
+//  SwiftUIMenu
 //
 //  Created by Fernando Moya de Rivas on 19/01/2020.
 //  Copyright © 2020 Fernando Moya de Rivas. All rights reserved.

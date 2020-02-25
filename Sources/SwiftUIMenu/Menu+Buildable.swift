@@ -26,18 +26,18 @@ extension Menu: Buildable {
     }
 
     /// Sets the drawer size proportion relative to the size of the menu
-    public func overlappingRatio(_ value: CGFloat) -> Self {
-        mutating(keyPath: \.overlappingRatio, value: value)
+    public func revealRatio(_ value: CGFloat) -> Self {
+        mutating(keyPath: \.revealRatio, value: value)
     }
 
     /// Adds a `DragGesture` to swipe the menu open / close
     public func allowDragging(_ value: Bool = true) -> Self {
-        mutating(keyPath: \.allowDragging, value: value)
+        mutating(keyPath: \.allowsDragging, value: value)
     }
 
     /// Removes the `DragGesture` used to swipe the menu open / close
     public func disableDragging() -> Self {
-        mutating(keyPath: \.allowDragging, value: false)
+        mutating(keyPath: \.allowsDragging, value: false)
     }
 
     /// Adds a header to the menu drawer

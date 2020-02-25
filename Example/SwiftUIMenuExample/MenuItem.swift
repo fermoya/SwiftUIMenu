@@ -7,23 +7,19 @@
 //
 
 import Foundation
+import SwiftUI
 
 struct MenuItem: Equatable {
     
-    enum Kind {
-        case text
-        case image
-    }
-    
     var name: String
-    var kind: Kind
+    var color: Color
 }
 
 let menuItems: [MenuItem] = [
-    MenuItem(name: "Setion 1", kind: .text),
-    MenuItem(name: "Setion 2", kind: .text),
-    MenuItem(name: "Setion 3", kind: .image),
-    MenuItem(name: "Setion 4", kind: .text),
-    MenuItem(name: "Setion 5", kind: .image),
-    MenuItem(name: "Setion 6", kind: .text)
+    MenuItem(name: "Section 1", color: .blue),
+    MenuItem(name: "Section 2", color: .red),
+    MenuItem(name: "Section 3", color: .green),
+    MenuItem(name: "Section 4", color: .orange),
+    MenuItem(name: "Section 5", color: .yellow),
+    MenuItem(name: "Section 6", color: .purple)
 ]

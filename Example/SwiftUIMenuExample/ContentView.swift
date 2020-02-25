@@ -12,6 +12,7 @@ struct ContentView: View {
 
     @State var index = 0
     @State var isMenuOpen = false
+    var isMenuOnLeft = true
 
     var body: some View {
         NavigationView {
@@ -19,17 +20,28 @@ struct ContentView: View {
                      isOpen: self.$isMenuOpen,
                      menuItems: menuItems,
                      id: \.name,
-                     menuItemRow: { Text($0.name) },
+                     menuItemRow: {
+                        Text($0.name)
+                            .foregroundColor($0.color)
+                     },
                      menuItemContent: { section in
                         ZStack {
-                            Rectangle().fill(Color.white)
-                            Text("This is section \(section)")
-                        }.navigationBarItems(leading: self.menuButton)
-                            .navigationBarTitle(Text("Section \(section + 1)"), displayMode: .inline)
+                            Rectangle().fill(menuItems[self.index].color)
+                            Text("Welcome to ").font(.system(size: 20))
+                                + Text(menuItems[self.index].name).font(.system(size: 30)).bold().italic()
+                        }.navigationBarItems(leading: self.isMenuOnLeft ? AnyView(self.menuButton) : AnyView(EmptyView()),
+                                             trailing: self.isMenuOnLeft ? AnyView(EmptyView()) : AnyView(self.menuButton))
+                            .navigationBarTitle(Text("SwiftUIMenu"), displayMode: .inline)
                     })
-                .style(.stretch)
-                .overlappingRatio(0.8)
-                .allowDragging()
+                .style(.overlap)
+                .revealRatio(0.8)
+                .header(header: {
+                    ProfileHeader()
+                })
+                .alignment(isMenuOnLeft ? .left : .right)
+                .footer(footer: {
+                    Text("Copyright © 2020 Fernando Moya de Rivas. All rights reserved.")
+                })
                 .shadeContent()
         }
     }
@@ -44,6 +56,7 @@ extension ContentView {
             }
         }) {
             Image(systemName: self.isMenuOpen ? "xmark" : "list.bullet")
+                .padding()
         }
     }
 

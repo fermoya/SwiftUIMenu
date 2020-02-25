@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6B6C737D24002C3A009C1FC6 /* ProfileHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B6C737C24002C3A009C1FC6 /* ProfileHeader.swift */; };
 		6BD68FCA23F57CED00A518D3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BD68FC923F57CED00A518D3 /* AppDelegate.swift */; };
 		6BD68FCC23F57CED00A518D3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BD68FCB23F57CED00A518D3 /* SceneDelegate.swift */; };
 		6BD68FCE23F57CED00A518D3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BD68FCD23F57CED00A518D3 /* ContentView.swift */; };
@@ -23,6 +24,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6B6C737C24002C3A009C1FC6 /* ProfileHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeader.swift; sourceTree = "<group>"; };
 		6BD68FC623F57CED00A518D3 /* SwiftUIMenuExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftUIMenuExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6BD68FC923F57CED00A518D3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6BD68FCB23F57CED00A518D3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -74,6 +76,7 @@
 				6BD68FDD23F57D5400A518D3 /* Support */,
 				6BD68FCD23F57CED00A518D3 /* ContentView.swift */,
 				6BD68FEE23F57FEE00A518D3 /* MenuItem.swift */,
+				6B6C737C24002C3A009C1FC6 /* ProfileHeader.swift */,
 				6BD68FD123F57CF100A518D3 /* Preview Content */,
 			);
 			path = SwiftUIMenuExample;
@@ -202,6 +205,7 @@
 				6BD68FEA23F57D7600A518D3 /* Buildable.swift in Sources */,
 				6BD68FCE23F57CED00A518D3 /* ContentView.swift in Sources */,
 				6BD68FF023F57FEE00A518D3 /* MenuItem.swift in Sources */,
+				6B6C737D24002C3A009C1FC6 /* ProfileHeader.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
