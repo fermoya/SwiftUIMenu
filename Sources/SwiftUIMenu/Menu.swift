@@ -74,6 +74,12 @@ public struct Menu<Item, ID, Row, Content>: View where Item: Equatable, Row: Vie
 
     /// Section list size proportion relative to the menu size
     var revealRatio: CGFloat = 1
+    
+    /// Edges to ignore
+    var edges: Edge.Set = .all
+    
+    /// Should content ignore edges
+    var shouldIgnoreEdges = false
 
     /// Defines the position of the menu drawer
     public enum Alignment {
@@ -115,6 +121,8 @@ public struct Menu<Item, ID, Row, Content>: View where Item: Equatable, Row: Vie
     }
     
     public var body: some View {
+        let sectionContent = shouldIgnoreEdges ? AnyView(self.sectionContent.edgesIgnoringSafeArea(edges)) : AnyView(self.sectionContent)
+        
         let view = ZStack {
             if style == .stretch {
                 sectionList

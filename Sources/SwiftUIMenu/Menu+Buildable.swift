@@ -51,5 +51,10 @@ extension Menu: Buildable {
         let footer = { AnyView(footer()) }
         return mutating(keyPath: \.footer, value: footer)
     }
+    
+    public func edgesIgnoringSafeArea(_ edges: Edge.Set) -> Self {
+        mutating(keyPath: \.edges, value: edges)
+            .mutating(keyPath: \.shouldIgnoreEdges, value: true)
+    }
 
 }
