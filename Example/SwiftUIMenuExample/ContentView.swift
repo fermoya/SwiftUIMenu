@@ -27,14 +27,14 @@ struct ContentView: View {
                      menuItemContent: { section in
                         ZStack {
                             Rectangle().fill(menuItems[self.index].color)
-                            Text("Welcome to ").font(.system(size: 20))
-                                + Text(menuItems[self.index].name).font(.system(size: 30)).bold().italic()
+                            (Text("Welcome to ").font(.system(size: 20))
+                                + Text(menuItems[self.index].name).font(.system(size: 30)).bold().italic())
                         }
                      .navigationBarItems(leading: self.isMenuOnLeft ? AnyView(self.menuButton) : AnyView(EmptyView()),
                                              trailing: self.isMenuOnLeft ? AnyView(EmptyView()) : AnyView(self.menuButton))
                             .navigationBarTitle(Text("SwiftUIMenu"), displayMode: .inline)
                     })
-                .style(.overlap)
+                .style(.stretch)
                 .revealRatio(0.8)
                 .header(header: {
                     ProfileHeader()

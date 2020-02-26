@@ -255,12 +255,14 @@ extension Menu {
             content = AnyView(menuItemContent(indexSelected))
         }
         
-        return content
+        return ZStack { content }
+            .frame(size: size)
+            .contentShape(Rectangle())
             .onTapGesture (perform: {
                 withAnimation(Animation.easeOut(duration: 0.25)) {
                     self.isOpen = false
                 }
-        })
+            })
     }
 
     /// The drawer menu that slides from the side
