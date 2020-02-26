@@ -52,6 +52,12 @@ extension Menu: Buildable {
         return mutating(keyPath: \.footer, value: footer)
     }
     
+    public func listCustomization<NewList: View>(_ value: @escaping (AnyView) -> NewList) -> Self {
+        mutating(keyPath: \.listCustomization, value: { (r: AnyView) in
+            AnyView(value(r))
+        })
+    }
+    
     public func edgesIgnoringSafeArea(_ edges: Edge.Set) -> Self {
         mutating(keyPath: \.edges, value: edges)
             .mutating(keyPath: \.shouldIgnoreEdges, value: true)

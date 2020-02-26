@@ -29,7 +29,8 @@ struct ContentView: View {
                             Rectangle().fill(menuItems[self.index].color)
                             Text("Welcome to ").font(.system(size: 20))
                                 + Text(menuItems[self.index].name).font(.system(size: 30)).bold().italic()
-                        }.navigationBarItems(leading: self.isMenuOnLeft ? AnyView(self.menuButton) : AnyView(EmptyView()),
+                        }
+                     .navigationBarItems(leading: self.isMenuOnLeft ? AnyView(self.menuButton) : AnyView(EmptyView()),
                                              trailing: self.isMenuOnLeft ? AnyView(EmptyView()) : AnyView(self.menuButton))
                             .navigationBarTitle(Text("SwiftUIMenu"), displayMode: .inline)
                     })
@@ -43,6 +44,12 @@ struct ContentView: View {
                     Text("Copyright © 2020 Fernando Moya de Rivas. All rights reserved.")
                 })
                 .shadeContent()
+                .edgesIgnoringSafeArea(.all)
+                .listCustomization({ (list: AnyView) in
+                    list.onAppear {
+                        UITableView.appearance().separatorStyle = .none
+                    }
+                })
         }
     }
 }

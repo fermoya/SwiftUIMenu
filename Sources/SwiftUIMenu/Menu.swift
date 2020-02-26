@@ -80,6 +80,8 @@ public struct Menu<Item, ID, Row, Content>: View where Item: Equatable, Row: Vie
     
     /// Should content ignore edges
     var shouldIgnoreEdges = false
+    
+    var listCustomization: ((AnyView) -> AnyView)?
 
     /// Defines the position of the menu drawer
     public enum Alignment {
@@ -121,8 +123,6 @@ public struct Menu<Item, ID, Row, Content>: View where Item: Equatable, Row: Vie
     }
     
     public var body: some View {
-        let sectionContent = shouldIgnoreEdges ? AnyView(self.sectionContent.edgesIgnoringSafeArea(edges)) : AnyView(self.sectionContent)
-        
         let view = ZStack {
             if style == .stretch {
                 sectionList
@@ -248,45 +248,55 @@ extension Menu {
 
     /// The content shown as per `indexSelected`
     private var sectionContent: some View {
-        menuItemContent(indexSelected)
+        var content: AnyView
+        if shouldIgnoreEdges {
+            content = AnyView(menuItemContent(indexSelected).edgesIgnoringSafeArea(edges))
+        } else {
+            content = AnyView(menuItemContent(indexSelected))
+        }
+        
+        return content
             .onTapGesture (perform: {
                 withAnimation(Animation.easeOut(duration: 0.25)) {
                     self.isOpen = false
                 }
-            })
+        })
     }
 
     /// The drawer menu that slides from the side
     private var sectionList: some View {
-        List {
-            if header != nil {
-                header!()
-            }
-            ForEach(menuItems, id: keyPath) { item in
-                HStack {
-                    if self.alignment == .right {
-                        Spacer()
-                    }
-                    self.menuItemRow(item)
-                    if self.alignment == .left {
-                        Spacer()
-                    }
+        let list =
+            List {
+                if header != nil {
+                    header!()
                 }
-                .contentShape(Rectangle())
-                .onTapGesture (perform: {
-                    withAnimation(Animation.easeOut(duration: 0.25)) {
-                        self.isOpen = false
-                        self.indexSelected = self.menuItems.firstIndex(of: item)!
+                ForEach(menuItems, id: keyPath) { item in
+                    HStack {
+                        if self.alignment == .right {
+                            Spacer()
+                        }
+                        self.menuItemRow(item)
+                        if self.alignment == .left {
+                            Spacer()
+                        }
                     }
+                    .contentShape(Rectangle())
+                    .onTapGesture (perform: {
+                        withAnimation(Animation.easeOut(duration: 0.25)) {
+                            self.isOpen = false
+                            self.indexSelected = self.menuItems.firstIndex(of: item)!
+                        }
                     })
-
+                    
+                }
+                if footer != nil {
+                    footer!()
+                }
             }
-            if footer != nil {
-                footer!()
-            }
-        }
-        .frame(size: sectionListSize)
-        .offset(sectionListOffset)
+            .frame(size: sectionListSize)
+        
+        guard let customize = listCustomization else { return AnyView(list).offset(sectionListOffset) }
+        return customize(AnyView(list)).offset(sectionListOffset)
     }
     
 }
