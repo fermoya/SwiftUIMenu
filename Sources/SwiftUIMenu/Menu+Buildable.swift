@@ -51,11 +51,10 @@ extension Menu: Buildable {
         let footer = { AnyView(footer()) }
         return mutating(keyPath: \.footer, value: footer)
     }
-    
-    public func listCustomization<NewList: View>(_ value: @escaping (AnyView) -> NewList) -> Self {
-        mutating(keyPath: \.listCustomization, value: { (r: AnyView) in
-            AnyView(value(r))
-        })
+
+    /// Adds background to menu list rows
+    public func menuRowBackground<Background: View>(_ value: Background) -> Self {
+        mutating(keyPath: \.rowBackground, value: AnyView(value))
     }
     
     public func edgesIgnoringSafeArea(_ edges: Edge.Set) -> Self {

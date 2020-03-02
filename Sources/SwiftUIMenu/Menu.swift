@@ -80,8 +80,9 @@ public struct Menu<Item, ID, Row, Content>: View where Item: Equatable, Row: Vie
     
     /// Should content ignore edges
     var shouldIgnoreEdges = false
-    
-    var listCustomization: ((AnyView) -> AnyView)?
+
+    /// `sectionList` row background
+    var rowBackground: AnyView?
 
     /// Defines the position of the menu drawer
     public enum Alignment {
@@ -267,38 +268,36 @@ extension Menu {
 
     /// The drawer menu that slides from the side
     private var sectionList: some View {
-        let list =
-            List {
-                if header != nil {
-                    header!()
-                }
-                ForEach(menuItems, id: keyPath) { item in
-                    HStack {
-                        if self.alignment == .right {
-                            Spacer()
-                        }
-                        self.menuItemRow(item)
-                        if self.alignment == .left {
-                            Spacer()
-                        }
-                    }
-                    .contentShape(Rectangle())
-                    .onTapGesture (perform: {
-                        withAnimation(Animation.easeOut(duration: 0.25)) {
-                            self.isOpen = false
-                            self.indexSelected = self.menuItems.firstIndex(of: item)!
-                        }
-                    })
-                    
-                }
-                if footer != nil {
-                    footer!()
-                }
+        List {
+            if header != nil {
+                header!()
             }
-            .frame(size: sectionListSize)
-        
-        guard let customize = listCustomization else { return AnyView(list).offset(sectionListOffset) }
-        return customize(AnyView(list)).offset(sectionListOffset)
+            ForEach(menuItems, id: keyPath) { item in
+                HStack {
+                    if self.alignment == .right {
+                        Spacer()
+                    }
+                    self.menuItemRow(item)
+                    if self.alignment == .left {
+                        Spacer()
+                    }
+                }
+                .listRowBackground(self.rowBackground)
+                .contentShape(Rectangle())
+                .onTapGesture (perform: {
+                    withAnimation(Animation.easeOut(duration: 0.25)) {
+                        self.isOpen = false
+                        self.indexSelected = self.menuItems.firstIndex(of: item)!
+                    }
+                })
+
+            }
+            if footer != nil {
+                footer!()
+            }
+        }
+        .frame(size: sectionListSize)
+        .offset(sectionListOffset)
     }
     
 }
