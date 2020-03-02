@@ -43,7 +43,7 @@ struct ContentView: View {
                     Text("Copyright © 2020 Fernando Moya de Rivas. All rights reserved.")
                 })
                 .shadeContent()
-                .edgesIgnoringSafeArea(.all).menuRowBackground(Color.gray)
+                .edgesIgnoringSafeArea(.all)
         }.onAppear {
             UITableView.appearance().separatorStyle = .none
         }
