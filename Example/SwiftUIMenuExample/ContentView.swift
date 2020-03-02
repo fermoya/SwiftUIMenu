@@ -17,23 +17,23 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             Menu(indexSelected: self.$index,
-                     isOpen: self.$isMenuOpen,
-                     menuItems: menuItems,
-                     id: \.name,
-                     menuItemRow: {
-                        Text($0.name)
-                            .foregroundColor($0.color)
-                     },
-                     menuItemContent: { section in
-                        ZStack {
-                            Rectangle().fill(menuItems[self.index].color)
-                            Text("Welcome to ").font(.system(size: 20))
-                                + Text(menuItems[self.index].name).font(.system(size: 30)).bold().italic()
-                        }.navigationBarItems(leading: self.isMenuOnLeft ? AnyView(self.menuButton) : AnyView(EmptyView()),
-                                             trailing: self.isMenuOnLeft ? AnyView(EmptyView()) : AnyView(self.menuButton))
-                            .navigationBarTitle(Text("SwiftUIMenu"), displayMode: .inline)
-                    })
-                .style(.overlap)
+                 isOpen: self.$isMenuOpen,
+                 menuItems: menuItems,
+                 id: \.name,
+                 menuItemRow: {
+                    Text($0.name)
+                        .foregroundColor($0.color)
+            },
+                 menuItemContent: { section in
+                    ZStack {
+                        Rectangle().fill(menuItems[self.index].color)
+                        (Text("Welcome to ").font(.system(size: 20))
+                            + Text(menuItems[self.index].name).font(.system(size: 30)).bold().italic())
+                    }
+                    .navigationBarItems(leading: self.isMenuOnLeft ? AnyView(self.menuButton) : AnyView(EmptyView()),
+                                        trailing: self.isMenuOnLeft ? AnyView(EmptyView()) : AnyView(self.menuButton))
+                        .navigationBarTitle(Text("SwiftUIMenu"), displayMode: .inline)
+            }).style(.stretch)
                 .revealRatio(0.8)
                 .header(header: {
                     ProfileHeader()
@@ -43,6 +43,9 @@ struct ContentView: View {
                     Text("Copyright © 2020 Fernando Moya de Rivas. All rights reserved.")
                 })
                 .shadeContent()
+                .edgesIgnoringSafeArea(.all)
+        }.onAppear {
+            UITableView.appearance().separatorStyle = .none
         }
     }
 }

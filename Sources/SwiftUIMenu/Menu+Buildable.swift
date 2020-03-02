@@ -52,4 +52,14 @@ extension Menu: Buildable {
         return mutating(keyPath: \.footer, value: footer)
     }
 
+    /// Adds background to menu list rows
+    public func menuRowBackground<Background: View>(_ value: Background) -> Self {
+        mutating(keyPath: \.rowBackground, value: AnyView(value))
+    }
+    
+    public func edgesIgnoringSafeArea(_ edges: Edge.Set) -> Self {
+        mutating(keyPath: \.edges, value: edges)
+            .mutating(keyPath: \.shouldIgnoreEdges, value: true)
+    }
+
 }

@@ -74,6 +74,15 @@ public struct Menu<Item, ID, Row, Content>: View where Item: Equatable, Row: Vie
 
     /// Section list size proportion relative to the menu size
     var revealRatio: CGFloat = 1
+    
+    /// Edges to ignore
+    var edges: Edge.Set = .all
+    
+    /// Should content ignore edges
+    var shouldIgnoreEdges = false
+
+    /// `sectionList` row background
+    var rowBackground: AnyView?
 
     /// Defines the position of the menu drawer
     public enum Alignment {
@@ -235,11 +244,21 @@ extension Menu {
         Rectangle()
             .fill(Color.black.opacity(shadeOpacity))
             .allowsHitTesting(false)
+            .edgesIgnoringSafeArea(.all)
     }
 
     /// The content shown as per `indexSelected`
     private var sectionContent: some View {
-        menuItemContent(indexSelected)
+        var content: AnyView
+        if shouldIgnoreEdges {
+            content = AnyView(menuItemContent(indexSelected).edgesIgnoringSafeArea(edges))
+        } else {
+            content = AnyView(menuItemContent(indexSelected))
+        }
+        
+        return ZStack { content }
+            .frame(size: size)
+            .contentShape(Rectangle())
             .onTapGesture (perform: {
                 withAnimation(Animation.easeOut(duration: 0.25)) {
                     self.isOpen = false
@@ -263,13 +282,14 @@ extension Menu {
                         Spacer()
                     }
                 }
+                .listRowBackground(self.rowBackground)
                 .contentShape(Rectangle())
                 .onTapGesture (perform: {
                     withAnimation(Animation.easeOut(duration: 0.25)) {
                         self.isOpen = false
                         self.indexSelected = self.menuItems.firstIndex(of: item)!
                     }
-                    })
+                })
 
             }
             if footer != nil {
