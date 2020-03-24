@@ -40,6 +40,16 @@ extension Menu: Buildable {
         mutating(keyPath: \.allowsDragging, value: false)
     }
 
+    /// Removes the `TapGesture` used to close the menu by tapping on the section content
+    public func disableContentTap() -> Self {
+        mutating(keyPath: \.allowsTapping, value: false)
+    }
+
+    /// Adds a `TapGesture` to close the menu by tapping on the section content
+    public func allowContentTap() -> Self {
+        mutating(keyPath: \.allowsTapping, value: false)
+    }
+
     /// Adds a header to the menu drawer
     public func header<Header: View>(@ViewBuilder header: @escaping () -> Header) -> Self {
         let header = { AnyView(header()) }

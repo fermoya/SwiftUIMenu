@@ -72,6 +72,9 @@ public struct Menu<Item, ID, Row, Content>: View where Item: Equatable, Row: Vie
     /// `true` if `Menu` can be open by dragging
     var allowsDragging = true
 
+    /// `true` if `Menu` can be closed by tapping on the content
+    var allowsTapping = true
+
     /// Section list size proportion relative to the menu size
     var revealRatio: CGFloat = 1
     
@@ -259,11 +262,13 @@ extension Menu {
         return ZStack { content }
             .frame(size: size)
             .contentShape(Rectangle())
-            .onTapGesture (perform: {
-                withAnimation(Animation.easeOut(duration: 0.25)) {
-                    self.isOpen = false
-                }
-            })
+            .simultaneousGesture(!allowsTapping ? nil :
+                TapGesture(count: 1)
+                    .onEnded({
+                        withAnimation(Animation.easeOut(duration: 0.25)) {
+                            self.isOpen = false
+                        }
+                    }))
     }
 
     /// The drawer menu that slides from the side
