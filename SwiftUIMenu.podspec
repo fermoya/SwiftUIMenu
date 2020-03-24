@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "SwiftUIMenu"
-  s.version      = "1.1.0"
+  s.version      = "1.1.1"
   s.summary      = "Native component in SwiftUI to implement Menu Navigation Pattern. Easy to use, easy to customize."
 
   s.description  = <<-DESC
