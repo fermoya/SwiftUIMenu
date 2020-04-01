@@ -73,7 +73,7 @@ public struct Menu<Item, ID, Row, Content>: View where Item: Equatable, Row: Vie
     var allowsDragging = true
 
     /// `true` if `Menu` can be closed by tapping on the content
-    var allowsTapping = true
+    var allowsTapping = false
 
     /// Section list size proportion relative to the menu size
     var revealRatio: CGFloat = 1
