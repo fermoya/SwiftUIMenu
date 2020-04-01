@@ -123,6 +123,7 @@ Menu(...)
 You can also:
 - Change the ratio of available space that `Menu` will take up when open with `revealRatio`
 - Disable the `DragGesture` with `disableDragging`
+- Make the content dismiss `Menu` by a simple tap with `allowContentTap()`
 - Shade the content when `Menu` is open with `shadeContent`
 
 ```swift

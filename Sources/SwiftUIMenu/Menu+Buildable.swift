@@ -46,8 +46,8 @@ extension Menu: Buildable {
     }
 
     /// Adds a `TapGesture` to close the menu by tapping on the section content
-    public func allowContentTap() -> Self {
-        mutating(keyPath: \.allowsTapping, value: false)
+    public func allowContentTap(_ value: Bool = true) -> Self {
+        mutating(keyPath: \.allowsTapping, value: value)
     }
 
     /// Adds a header to the menu drawer
