@@ -262,7 +262,7 @@ extension Menu {
         return ZStack { content }
             .frame(size: size)
             .contentShape(Rectangle())
-            .simultaneousGesture(!allowsTapping ? nil :
+            .simultaneousGesture((!allowsTapping || isClosed) ? nil :
                 TapGesture(count: 1)
                     .onEnded({
                         withAnimation(Animation.easeOut(duration: 0.25)) {
