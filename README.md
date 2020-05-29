@@ -37,23 +37,74 @@ github "fermoya/SwiftUIMenu"
 ### Initialization
 
 You can create a `Menu` by passing:
-- Binding to the selected index
-- Binding to determine if `Menu` is open
-- Array of items to populate the menu
-- `ViewBuilder` to build each row
-- `ViewBuilder` to build the content for the selected index
+- `index`: Integer `Binding` to the selected index
+- `isOpen`: Boolean `Binding` to determine if `Menu` is open
+- `menuItems`: An array of items to populate the menu. Must conforms to `Equatable`
+- `id`: A `keyPath`(Optional when menItems conforms to `Identifiable`)
+- `nenuItemRow`: A `ViewBuilder` to build each row in the menu
+- `menuItemContent`: `ViewBuilder` to build the content for the selected index
+
+### Example Usage
+
+Import in your swift file
+```swift
+import SwiftUIMenu
+```
+Define your bindiings
 
 ```swift
+@State var index = 0
+@State var isMenuOpen = false
+```
+Define menu items:
+```swift 
+struct MenuItem: Equatable, Identifiable {
+    var id = UUID()
+    var name:String
+}
+
+var menuItems = [
+    MenuItem(name: "Option 2")
+    MenuItem(name: "Option 2")
+]
+``` 
+Note: This name here is not a required field this can be an array of any objects that coforms to `Equitable` and optionally `Identifiable`(when id keypath is specified)/
+
+
+And Finally Initalize the menu
+```swift
+
 Menu(indexSelected: self.$index,
-     isOpen: self.$isMenuOpen,
-     menuItems: menuItems,
-     menuItemRow: { index in
-         Text("Option \(index)")
-     },
-     menuItemContent: { section in
-         Text("Welcome to section \(section)")
-     })
-})
+    isOpen: self.$isMenuOpen,
+    menuItems: menuItems,
+    menuItemRow: { index in
+        Text("Option \(index)")
+    },
+    menuItemContent: { section in
+        Text("Welcome to section \(section)")
+    }
+)
+```
+
+Initialization example using the optional id paramater
+
+```swift
+struct MenuItem: Equatable {
+    var name:String
+}
+...
+
+Menu(indexSelected: self.$index,
+    isOpen: self.$isMenuOpen,
+    menuItems: menuItems,
+    id: \MenuItem.name
+    menuItemRow: { index in
+        Text("Option \(index)")
+    },
+    menuItemContent: { section in
+        Text("Welcome to section \(section)")
+    }
+)
 ```
 
 <img src="resources/usage.gif" alt="Example of usage"  height="640"/>

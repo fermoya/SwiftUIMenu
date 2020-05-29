@@ -11,19 +11,22 @@ import SwiftUI
 ///
 /// `Menu` allows you to implement a side-sliding menu to navigate through App screen.
 ///
-/// #Example#
+/// # Usage Example #
 /// ```swift
 /// Menu(indexSelected: self.$index,
 ///      isOpen: self.$isMenuOpen,
 ///      menuItems: menuItems,
+///      id: \MenuItemType.keypaths
 ///      menuItemRow: { index in
 ///          Text("Option \(index)")
 ///      },
 ///      menuItemContent: { section in
 ///          Text("Welcome to section \(section)")
-///      })
-/// })
+///      }
+/// )
 /// ```
+/// - Note: id field is optional if the menuItems `Item` type conforms to Indentifable
+///
 public struct Menu<Item, ID, Row, Content>: View where Item: Equatable, Row: View, Content: View, ID: Hashable {
 
     /*** Arguments  ***/
@@ -115,8 +118,9 @@ public struct Menu<Item, ID, Row, Content>: View where Item: Equatable, Row: Vie
     /// - Parameter indexSelected: Binding to the current section index
     /// - Parameter isOpen: Binding to the menu drawer state
     /// - Parameter menuItems: Array of elements to populate the menu drawer
-    /// - Parameter menuItemRow: Factory method to build the section list
-    /// - Parameter menuItemContent: Factory method to build de current section content
+    /// - Parameter id: Keypath to identafiable field within menuItems
+    /// - Parameter menuItemRow: Factory method to build view for  the section list
+    /// - Parameter menuItemContent: Factory method to build view for current section content
     public init(indexSelected: Binding<Int>, isOpen: Binding<Bool>, menuItems: [Item], id: KeyPath<Item, ID>, @ViewBuilder menuItemRow: @escaping (Item) -> Row, @ViewBuilder menuItemContent: @escaping (Int) -> Content) {
         self._indexSelected = indexSelected
         self._isOpen = isOpen
@@ -155,6 +159,13 @@ public struct Menu<Item, ID, Row, Content>: View where Item: Equatable, Row: Vie
 // MARK: Helpers
 
 extension Menu where ID == Item.ID, Item: Identifiable {
+    /// Initializes a new `Menu` where the Item in menuItems is `Identifiable`
+    ///
+    /// - Parameter indexSelected: Binding to the current section index
+    /// - Parameter isOpen: Binding to the menu drawer state
+    /// - Parameter menuItems: Array of elements to populate the menu drawer
+    /// - Parameter menuItemRow: Factory method to build view for  the section list
+    /// - Parameter menuItemContent: Factory method to build view for current section content
     public init(indexSelected: Binding<Int>, isOpen: Binding<Bool>, menuItems: [Item], @ViewBuilder menuItemRow: @escaping (Item) -> Row, @ViewBuilder menuItemContent: @escaping (Int) -> Content) {
         self.init(indexSelected: indexSelected, isOpen: isOpen, menuItems: menuItems, id: \Item.id, menuItemRow: menuItemRow, menuItemContent: menuItemContent)
     }
