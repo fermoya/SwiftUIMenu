@@ -16,6 +16,7 @@ import SwiftUI
 /// Menu(indexSelected: self.$index,
 ///      isOpen: self.$isMenuOpen,
 ///      menuItems: menuItems,
+///      id: \.id,
 ///      menuItemRow: { index in
 ///          Text("Option \(index)")
 ///      },
@@ -114,7 +115,8 @@ public struct Menu<Item, ID, Row, Content>: View where Item: Equatable, Row: Vie
     ///
     /// - Parameter indexSelected: Binding to the current section index
     /// - Parameter isOpen: Binding to the menu drawer state
-    /// - Parameter menuItems: Array of elements to populate the menu drawer
+    /// - Parameter menuItems: Array o `Equatable` elements to populate the menu drawer
+    /// - Parameter id: `KeyPath` to an identifier
     /// - Parameter menuItemRow: Factory method to build the section list
     /// - Parameter menuItemContent: Factory method to build de current section content
     public init(indexSelected: Binding<Int>, isOpen: Binding<Bool>, menuItems: [Item], id: KeyPath<Item, ID>, @ViewBuilder menuItemRow: @escaping (Item) -> Row, @ViewBuilder menuItemContent: @escaping (Int) -> Content) {
@@ -155,6 +157,14 @@ public struct Menu<Item, ID, Row, Content>: View where Item: Equatable, Row: Vie
 // MARK: Helpers
 
 extension Menu where ID == Item.ID, Item: Identifiable {
+
+    /// Initializes a new `Menu`
+    ///
+    /// - Parameter indexSelected: Binding to the current section index
+    /// - Parameter isOpen: Binding to the menu drawer state
+    /// - Parameter menuItems: Array of `Equatable` and `Identifiable` elements to populate the menu drawer
+    /// - Parameter menuItemRow: Factory method to build the section list
+    /// - Parameter menuItemContent: Factory method to build de current section content
     public init(indexSelected: Binding<Int>, isOpen: Binding<Bool>, menuItems: [Item], @ViewBuilder menuItemRow: @escaping (Item) -> Row, @ViewBuilder menuItemContent: @escaping (Int) -> Content) {
         self.init(indexSelected: indexSelected, isOpen: isOpen, menuItems: menuItems, id: \Item.id, menuItemRow: menuItemRow, menuItemContent: menuItemContent)
     }
