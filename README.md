@@ -23,7 +23,7 @@ pod 'SwiftUIMenu'
 ### Swift Package Manager
 
 Go to XCode:
-* File -> Swift Packages -> Add Package Dependency...
+* File → Swift Packages → Add Package Dependency...
 * Use the URL https://github.com/fermoya/SwiftUIMenu.git
 
 ### Carthage
@@ -40,21 +40,39 @@ You can create a `Menu` by passing:
 - Binding to the selected index
 - Binding to determine if `Menu` is open
 - Array of items to populate the menu
+- `KeyPath` to an identifier.
 - `ViewBuilder` to build each row
 - `ViewBuilder` to build the content for the selected index
 
 ```swift
-Menu(indexSelected: self.$index,
-     isOpen: self.$isMenuOpen,
-     menuItems: menuItems,
-     menuItemRow: { index in
-         Text("Option \(index)")
-     },
-     menuItemContent: { section in
-         Text("Welcome to section \(section)")
-     })
-})
+struct MenuItem: Equatable {
+    var name: String
+    var color: Color
+}
+
+@State var index = 0
+@State var isMenuOpen = false
+let menuItems = [
+    MenuItem(name: "Section 1", color: .blue),
+    ...
+]
+
+var body: some View {
+    Menu(indexSelected: self.$index,
+         isOpen: self.$isMenuOpen,
+         menuItems: menuItems,
+         id: \.name,
+         menuItemRow: { index in
+             Text("Option \(index)")
+         },
+         menuItemContent: { section in
+             Text("Welcome to section \(section)")
+         })
+    })
+    }
 ```
+
+> All examples require `import SwiftUIMenu` at the top of the source file.
 
 <img src="resources/usage.gif" alt="Example of usage"  height="640"/>
 
